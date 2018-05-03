@@ -24,7 +24,7 @@ const double Lf = 2.67;
 // reference value of each error constraints that we care
 const double ref_cte = 0.0;
 const double ref_epsi = 0.0;
-const double ref_v = 80.0;
+const double ref_v = 80.0*0.44704;
 
 // weight distribution of each error constraint, the heavier distribution the more we care about that constraint
 double cnstr_weight_v = 1.0;
