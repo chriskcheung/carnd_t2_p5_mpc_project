@@ -28,7 +28,7 @@ const double ref_v = 80.0;
 
 // weight distribution of each error constraint, the heavier distribution the more we care about that constraint
 double cnstr_weight_v = 1.0;
-double cnstr_weight_cte = 4000.0;
+double cnstr_weight_cte = 12000.0;
 double cnstr_weight_epsi = 4000.0;
 double cnstr_weight_delta = 5.0;
 double cnstr_weight_a = 5.0;
