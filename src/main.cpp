@@ -94,21 +94,9 @@ int main() {
           double psi = j[1]["psi"];
           double v = j[1]["speed"];
 		  double delta = j[1]["steering_angle"];
+		  double a = j[1]["throttle"];
 
-		  
-		  // To deal with 100ms latency between current state and the actual actuation 
-		  // control to be reflected to the vehicle, update the state vector using
-		  // dt=latency before passing state vector to polyfit() so that the coefficent
-		  // accounts for the new predicted state equvilent to the sample state with 
-		  // 100ms delay
-		  double dt = latency/0.001;  // in millisecond
-		  double Lf = 2.67;
-		  double v_mps = v*0.44704;   // convert speed from mph to meter per second
-		  px = px + cos(psi)*v_mps*dt;
-		  py = py + sin(psi)*v_mps*dt;
-		  psi = psi - v_mps*delta*dt/Lf;
 
-		  
           /*
           * TODO: Calculate steering angle and throttle using MPC.
           *
@@ -151,8 +139,24 @@ int main() {
 		  double epsi = - atan(coeffs[1]);
 		  
 		  
+		  // To deal with 100ms latency between current state and the actual actuation 
+		  // control to be reflected to the vehicle, update the state vector using
+		  // dt=latency before passing state vector to mpc.Solve() the new predicted state 
+		  // include the error prediction for 100ms latency
+		  // Note: after transforming coordinates, px, py and psi are reset to 0
+		  double dt = latency*0.001;  // in millisecond
+		  double Lf = 2.67;
+		  //     px1 = 0.0 + cos(0)*v*dt;
+		  double px1 = v*dt;
+		  //     py1 = 0.0 + sin(0)*v*dt;
+		  double py1 = 0.0;
+		  //     psi1 = 0.0 - v*delta*dt/Lf;
+		  double psi1 = 0.0 - v*delta*dt/Lf;
+		  double cte1 = cte + v*sin(epsi)*dt;
+		  double epsi1 = epsi - v*delta*dt/Lf;
+
 		  Eigen::VectorXd state(6);
-		  state << 0, 0, 0, v, cte, epsi;
+		  state << px1, py1, psi1, v1, cte1, epsi1;
 		  
 
 		  
