@@ -118,8 +118,8 @@ int main() {
 		  for (int i=0; i<int(ptsx.size()); i++) {
 			  double x_car = ptsx[i] - px;
 			  double y_car = ptsy[i] - py;
-			  ptsx_car[i] = x_car*cos(psi)+y_car*sin(psi);
-			  ptsy_car[i] = y_car*cos(psi)-x_car*sin(psi);
+			  ptsx_car[i] = x_car*cos(-psi) - y_car*sin(-psi);
+			  ptsy_car[i] = x_car*sin(-psi) + y_car*cos(-psi);
 		  }
 		  
 		  double* ptsx_eigen = &ptsx_car[0];
@@ -152,6 +152,7 @@ int main() {
 		  double py1 = 0.0;
 		  //     psi1 = 0.0 - v*delta*dt/Lf;
 		  double psi1 = 0.0 - v*delta*dt/Lf;
+		  double v1 = v + a*dt;
 		  double cte1 = cte + v*sin(epsi)*dt;
 		  double epsi1 = epsi - v*delta*dt/Lf;
 
